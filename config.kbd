@@ -1,0 +1,46 @@
+(defcfg
+  input (device-file "/dev/input/by-path/platform-i8042-serio-0-event-kbd")
+  output (uinput-sink "KMonad kbd"))
+
+(defalias sym (layer-toggle syms))
+(defalias cmd (layer-toggle cmds))
+(defalias fsft (tap-hold-next-release 200 f lsft))
+(defalias jsft (tap-hold-next-release 200 j rsft))
+(defalias actl (tap-hold-next-release 200 a lctl))
+(defalias ;ctl (tap-hold-next-release 200 ; rctl))
+
+(defsrc
+  esc   f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11   f12    prnt  ins  del
+  `     1    2    3    4    5    6    7    8    9    0    -     =      bspc
+  tab   q    w    e    r    t    y    u    i    o    p    [     ]      \
+  caps  a    s    d    f    g    h    j    k    l    ;    '     ret
+  lsft  z    x    c    v    b    n    m    ,    .    /    rsft  up
+  lctl  lmet lalt      spc       ralt cmps rctl           left  down   rght
+  )
+
+(deflayer base
+  esc   f1    f2   f3   f4    f5   f6   f7    f8   f9   f10   f11   f12    prnt  ins  del
+  `     1     2    3    4     5    6    7     8    9    0     -     =      bspc
+  tab   q     w    e    r     t    y    u     i    o    p     [     ]      \
+  lctl  @actl s    d    @fsft g    h    @jsft k    l    @;ctl '     ret
+  @cmd  z     x    c    v     b    n    m     ,    .    /     rsft  up
+  @sym  lmet  lalt      spc        ralt cmps  rctl            left  down   rght
+  )
+
+(deflayer cmds
+  _     _    _    _    _    _    _    _    _    _    _    _     _      _     _    _
+  _     _    _    _    _    _    _    _    _    _    _    _     _      _
+  _     _    _    _    _    _    _    _    _    _    _    _     _      _
+  _     _    _    _    _    _    _    ret  _    _    bspc _     _
+  _     _    _    _    _    _    _    _    _    _    _    _     _
+  _     _    _         _         _    _    _              _     _      _
+  )
+
+(deflayer syms
+  _     _    _    _    _    _    _    _    _    _    _    _     _      _     _    _
+  _     _    _    _    _    _    _    _    _    _    _    _     _      _
+  _     _    _    _    _    _    _    _    _    _    _    _     _      _
+  _     _    _    _    _    _    left down up   rght _    _     _
+  _     _    _    _    _    _    _    _    _    _    _    _     _
+  _     _    _         _         _    _    _              _     _      _
+  )
